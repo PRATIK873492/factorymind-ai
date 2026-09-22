@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "FactoryMind AI"
+description = "An industrial operations decision-support application for manufacturing plants, providing a calm, information-dense workspace for monitoring machine health, agent findings, recommendations, and plant operations."
+version = "1.0.0"
+id = "artifacts/factorymind-ai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21350
+
+[services.development]
+run = "pnpm --filter @workspace/factorymind-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/factorymind-ai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/factorymind-ai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21350"
+BASE_PATH = "/"
